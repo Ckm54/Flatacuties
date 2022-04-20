@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
-            console.log(element)
+            // console.log(element)
             displayCharacter(element)
         });
     })
@@ -14,5 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const spanContainer = document.createElement("span")
         spanContainer.innerText = character.name
         charactercontainer.append(spanContainer)
+
+        spanContainer.addEventListener("click", function(){
+            displayCharacterDetails(character.id)
+        })
+    }
+
+    function displayCharacterDetails(id) {
+        fetch(`http://localhost:3000/characters/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
     }
 })
