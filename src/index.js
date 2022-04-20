@@ -41,11 +41,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 </form>
                 <button id="reset-btn">Reset Votes</button>
             </div>
+            <h4>Add New Character</h4>
+            <form id="character-form">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" />
+            </div>
+            <div>
+                <label for="image-url">Image URL</label>
+                <input type="text" id="image-url" name="image-url" />
+            </div>
+            <input type="submit" value="Add Character" />
+            </form> 
             `
             characterInfoContainer.innerHTML = ''
             characterInfoContainer.innerHTML = itemContainer
             const votesContainer = characterInfoContainer.querySelector("#vote-count")
             const resetButton = characterInfoContainer.querySelector("#reset-btn")
+            const addCharacterForm = characterInfoContainer.querySelector("#character-form")
 
             const updateVoteForm = characterInfoContainer.querySelector("#votes-form")
             updateVoteForm.addEventListener("submit", function(e) {
@@ -61,6 +74,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             resetButton.addEventListener("click", function() {
                 updateCharacterVotes(character, 0, votesContainer)
+            })
+
+            addCharacterForm.addEventListener("submit", function(e) {
+                e.preventDefault()
+                const data = {
+                    name: addCharacterForm["name"].value,
+                    image: addCharacterForm["image-url"].value,
+                    votes: 0
+                }
+                addNewCharacter(data)
+                addCharacterForm.reset()
             })
         })
     }
@@ -83,6 +107,20 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(data => {
             container.innerText = data.votes
+        })
+    }
+
+    function addNewCharacter(data) {
+        fetch(`http://localhost:3000/characters/`, {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayCharacter(data)
         })
     }
 })
