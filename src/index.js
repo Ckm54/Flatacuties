@@ -44,6 +44,22 @@ document.addEventListener("DOMContentLoaded", () => {
             `
             characterInfoContainer.innerHTML = ''
             characterInfoContainer.innerHTML = itemContainer
+
+            const updateVoteForm = characterInfoContainer.querySelector("#votes-form")
+            updateVoteForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const inputVotes = parseInt(updateVoteForm["votes"].value)
+                if(inputVotes){
+                    updateCharacterVotes(character, inputVotes)
+                }else {
+                    alert("please insert a number")
+                }
+                
+            })
         })
+    }
+
+    function updateCharacterVotes(character, voteInput) {
+        console.log(character.name, " has been given ", voteInput)
     }
 })
