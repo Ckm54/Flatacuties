@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
-            // console.log(element)
             displayCharacter(element)
             displayCharacterDetails(1)
         });
@@ -90,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateCharacterVotes(character, voteInput, container) {
-        // console.log(character.name, " has been given ", voteInput)
 
         fetch(`http://localhost:3000/characters/${character.id}`, {
             method: "PATCH",
