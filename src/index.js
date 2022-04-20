@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(response => response.json())
     .then(data => {
         data.forEach(element => {
-            console.log(element)
+            // console.log(element)
             displayCharacter(element)
             displayCharacterDetails(1)
         });
@@ -44,22 +44,40 @@ document.addEventListener("DOMContentLoaded", () => {
             `
             characterInfoContainer.innerHTML = ''
             characterInfoContainer.innerHTML = itemContainer
+            const votesContainer = characterInfoContainer.querySelector("#vote-count")
 
             const updateVoteForm = characterInfoContainer.querySelector("#votes-form")
             updateVoteForm.addEventListener("submit", function(e) {
                 e.preventDefault();
                 const inputVotes = parseInt(updateVoteForm["votes"].value)
                 if(inputVotes){
-                    updateCharacterVotes(character, inputVotes)
+                    updateCharacterVotes(character, inputVotes, votesContainer)
                 }else {
                     alert("please insert a number")
                 }
-                
+                updateVoteForm.reset()
             })
         })
     }
 
-    function updateCharacterVotes(character, voteInput) {
-        console.log(character.name, " has been given ", voteInput)
+    function updateCharacterVotes(character, voteInput, container) {
+        // console.log(character.name, " has been given ", voteInput)
+
+        fetch(`http://localhost:3000/characters/${character.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: character.id,
+                name: character.name,
+                image: character.image,
+                votes: voteInput
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            container.innerText = data.votes
+        })
     }
 })
