@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             characterInfoContainer.innerHTML = ''
             characterInfoContainer.innerHTML = itemContainer
             const votesContainer = characterInfoContainer.querySelector("#vote-count")
+            const resetButton = characterInfoContainer.querySelector("#reset-btn")
 
             const updateVoteForm = characterInfoContainer.querySelector("#votes-form")
             updateVoteForm.addEventListener("submit", function(e) {
@@ -56,6 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     alert("please insert a number")
                 }
                 updateVoteForm.reset()
+            })
+
+            resetButton.addEventListener("click", function() {
+                updateCharacterVotes(character, 0, votesContainer)
             })
         })
     }
